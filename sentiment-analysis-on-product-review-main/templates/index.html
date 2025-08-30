@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sentiment Analysis App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f2f2f2, #e6f7ff);
+            padding: 50px;
+            text-align: center;
+        }
+        textarea {
+            width: 400px;
+            height: 100px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+        canvas {
+            max-width: 500px;
+            margin: 30px auto;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>📝 Amazon Product Review Sentiment Analysis</h1>
+    <form action="/predict" method="post">
+        <textarea name="input_text" placeholder="Enter your review here...">{{ input_text or '' }}</textarea><br>
+        <button type="submit">Predict Sentiment</button>
+    </form>
+
+    {% if prediction_text %}
+    <div class="result">
+        <strong>Sentiment:</strong> {{ prediction_text }}
+    </div>
+
+    <canvas id="sentimentChart"></canvas>
+    <script>
+        const ctx = document.getElementById('sentimentChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Negative', 'Positive'],
+                datasets: [{
+                    label: 'Sentiment Probability',
+                    data: [{{ probabilities[0] }}, {{ probabilities[1] }}],
+                    backgroundColor: ['#f44336', '#4CAF50']
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 1
+                    }
+                }
+            }
+        });
+    </script>
+    {% endif %}
+</body>
+</html>
