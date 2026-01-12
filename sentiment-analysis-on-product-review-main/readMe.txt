@@ -124,5 +124,5 @@ This is a binary classification task due to the dataset structure.
 If a new dataset with neutral labels is available, the model can be updated for 3-class classification.
 
 👨‍💻 Created By:
-Prity Kumari
+Aman Kumar Singh
 
